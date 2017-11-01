@@ -3,11 +3,8 @@
 {% block content %}
     <div class="row">
         <div class="col-sm-4">
-            <img src="{% if user.profile.photo %}
-                            {{ user.profile.photo.url }}
-                        {% else %}
-                            https://qph.ec.quoracdn.net/main-qimg-7ca600a4562ef6a81f4dc2bd5c99fee9-c
-                        {% endif %}" height="200px" width="200px"/>
+            <img src={{ pic_url }} height="200px" width="200px"/>
+
 
             <p>username: {{ user.username }}</p>
             <p>first name: {{ user.first_name }}</p>

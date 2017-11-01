@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from question.models import Question
+from .models import Profile
 
 from .forms import UserForm, ProfileForm
 
@@ -13,8 +14,16 @@ from .forms import UserForm, ProfileForm
 def dashboard(request):
     asked_question_list = Question.objects.filter(user=request.user) # all question asked by current user
     subscribed_question_list = request.user.subscribed.all() # all question subscribed by current user
-
+    profile = Profile.objects.get(user_id=request.user)
+    if profile.photo:
+        pic_url = profile.photo.url
+        print(pic_url)
+    elif profile.fb_pic_url:
+        pic_url = profile.fb_pic_url
+    else:
+        pic_url =  "https://qph.ec.quoracdn.net/main-qimg-7ca600a4562ef6a81f4dc2bd5c99fee9-c"
     context = {'user':request.user,
+               'pic_url': pic_url,
                'asked_question_list':asked_question_list,
                'subscribed_question_list':subscribed_question_list,
         }
