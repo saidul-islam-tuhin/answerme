@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default">
+{% comment %}
+     <nav class="navbar navbar-default">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -72,7 +73,19 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
-
+{% endcomment %}
+<div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+    <div class="w-container">
+      <a href="{% url 'question:index' %}" class="brand w-nav-brand">
+        <h1 class="logo-text">AnswerMe</h1>
+      </a>
+      <nav role="navigation" class="nav-menu w-nav-menu"><a href="#" class="nav-link w-nav-link">Stories</a><a href="#cattegories" class="nav-link w-nav-link">Cattegories</a><a href="#" class="nav-link w-nav-link">Podcast</a></nav>
+      <nav role="navigation" class="nav-menu nav-sign-in w-nav-menu"><a href="#sign-in-block" class="nav-link w-nav-link">Sign In</a><a href="#sign-in-block" class="submit w-nav-link">Ask aquestion</a></nav>
+      <div class="w-nav-button">
+        <div class="w-icon-nav-menu"></div>
+      </div>
+    </div>
+ </div>
 {% block javascript %}
     <script>
         function loadNotifications() {

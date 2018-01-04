@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load socialaccount %}
 {% providers_media_js %}
+{% block title %}LOG IN{% endblock %}
 {% block content %}
   <h1>login</h1>
 
@@ -16,5 +17,7 @@
   </form>
 
     <h1>OR</h1>
- <a href="{% provider_login_url 'facebook' process='login' %}">Login with Facebook</a>
+ <a href="{% provider_login_url 'facebook' process='login' %}">Login with Facebook</a><br>
+    <h6>Don't have none of this?</h6>
+    <a class="btn btn-outline" href="{% url 'accounts:signup' %}"> Create a account</a>
 {% endblock  %}

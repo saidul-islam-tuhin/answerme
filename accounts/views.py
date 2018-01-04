@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from question.models import Question
 from .models import Profile
 
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, SignUpFrom
 
 
 @login_required
@@ -21,7 +21,7 @@ def dashboard(request):
     elif profile.fb_pic_url:
         pic_url = profile.fb_pic_url
     else:
-        pic_url =  "https://qph.ec.quoracdn.net/main-qimg-7ca600a4562ef6a81f4dc2bd5c99fee9-c"
+        pic_url = "https://qph.ec.quoracdn.net/main-qimg-7ca600a4562ef6a81f4dc2bd5c99fee9-c"
     context = {'user':request.user,
                'pic_url': pic_url,
                'asked_question_list':asked_question_list,
@@ -70,7 +70,29 @@ def user_login(request):
             return redirect('accounts:login')
     return render(request, 'allauth/account/login.html')
 
+
 def user_logout(request):
     logout(request)
     return redirect('question:index')
 
+
+def user_signup(request):
+    form = SignUpFrom(request.POST or None, request.FILES)
+    if form.is_valid():
+        user = form.save()
+        user.save()
+        user.refresh_from_db()  # load the profile instance created by the signal
+        print(user.refresh_from_db())
+        user.profile.photo = request.FILES['photo']
+        print(user.profile.photo)
+        user.save()
+        raw_password = form.cleaned_data.get('password1')
+        user = authenticate(username=user.username, password=raw_password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect('accounts:profile')
+    context = {
+        "form": form,
+    }
+    return render(request, 'allauth/account/signup.html', context)

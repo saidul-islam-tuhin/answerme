@@ -1,17 +1,34 @@
 {% extends 'base.html' %}
-
+{% block title %}SIGN UP{% endblock %}
 {% block content %}
-  <h2>Signup</h2>
-  <form method="post">
+  <h2>Sign up</h2>
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Signup</button>
+    {% for field in form %}
+        <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
   </form>
-  <br>
-  <p><strong>-- OR --</strong></p>
-    {% comment %}
-  <a href="{% url 'social:begin' 'github' %}">Signup with GitHub</a><br>
-  <a href="{% url 'social:begin' 'twitter' %}">Signup with Twitter</a><br>
-  <a href="{% url 'social:begin' 'facebook' %}">Signup with Facebook</a>
-  {% endcomment %}
+  <!-- Modal -->
+  <div id="SignUpModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+              <div class="modal-body">
+
+
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
 {% endblock %}
